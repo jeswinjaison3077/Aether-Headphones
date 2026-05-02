@@ -22,7 +22,11 @@ function DrawPath({
       strokeLinejoin="round"
       initial={{ pathLength: 0, opacity: 0 }}
       whileInView={{ pathLength: reduce ? 1 : 1, opacity: 1 }}
+<<<<<<< HEAD
       viewport={{ once: false, amount: 0.3 }}
+=======
+      viewport={{ once: true, amount: 0.3 }}
+>>>>>>> b65688a6b4da83c578a44bdae3be623940d3f4cc
       transition={{ duration: 2.4, delay, ease: "easeInOut" as const }}
       className={className}
     />
@@ -51,7 +55,11 @@ export function LeftDoodle({ delay = 0 }: { delay?: number }) {
           fill="none"
           initial={{ opacity: 0, scale: 0 }}
           whileInView={{ opacity: 1, scale: 1 }}
+<<<<<<< HEAD
           viewport={{ once: false }}
+=======
+          viewport={{ once: true }}
+>>>>>>> b65688a6b4da83c578a44bdae3be623940d3f4cc
           transition={{ delay: delay + 0.8, duration: 0.6, ease: "easeOut" as const }}
           className="stroke-black/10 stroke-[1.5]"
         />
@@ -59,7 +67,11 @@ export function LeftDoodle({ delay = 0 }: { delay?: number }) {
         <motion.g
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
+<<<<<<< HEAD
           viewport={{ once: false }}
+=======
+          viewport={{ once: true }}
+>>>>>>> b65688a6b4da83c578a44bdae3be623940d3f4cc
           transition={{ delay: delay + 1.2, duration: 0.5 }}
         >
           <line x1="40" y1="280" x2="56" y2="296" stroke="currentColor" strokeWidth="1.5" className="text-black/8" />
@@ -80,7 +92,11 @@ export function LeftDoodle({ delay = 0 }: { delay?: number }) {
             className="text-black/10"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
+<<<<<<< HEAD
             viewport={{ once: false }}
+=======
+            viewport={{ once: true }}
+>>>>>>> b65688a6b4da83c578a44bdae3be623940d3f4cc
             transition={{ delay: delay + 1.5 + i * 0.1, duration: 0.3 }}
           />
         ))}
@@ -111,7 +127,11 @@ export function RightDoodle({ delay = 0 }: { delay?: number }) {
           fill="none"
           initial={{ opacity: 0, rotate: 0, scale: 0.5 }}
           whileInView={{ opacity: 1, rotate: 45, scale: 1 }}
+<<<<<<< HEAD
           viewport={{ once: false }}
+=======
+          viewport={{ once: true }}
+>>>>>>> b65688a6b4da83c578a44bdae3be623940d3f4cc
           transition={{ delay: delay + 1, duration: 0.8, ease: "easeOut" as const }}
           style={{ transformOrigin: "60px 95px" }}
           className="stroke-black/10 stroke-[1]"
@@ -126,7 +146,11 @@ export function RightDoodle({ delay = 0 }: { delay?: number }) {
             className="text-black/8"
             initial={{ scaleX: 0 }}
             whileInView={{ scaleX: 1 }}
+<<<<<<< HEAD
             viewport={{ once: false }}
+=======
+            viewport={{ once: true }}
+>>>>>>> b65688a6b4da83c578a44bdae3be623940d3f4cc
             transition={{ delay: delay + 0.8 + i * 0.15, duration: 0.5 }}
             style={{ transformOrigin: "60px" }}
           />
@@ -137,7 +161,11 @@ export function RightDoodle({ delay = 0 }: { delay?: number }) {
           fill="none"
           initial={{ opacity: 0, scale: 0.5 }}
           whileInView={{ opacity: 1, scale: 1 }}
+<<<<<<< HEAD
           viewport={{ once: false }}
+=======
+          viewport={{ once: true }}
+>>>>>>> b65688a6b4da83c578a44bdae3be623940d3f4cc
           transition={{ delay: delay + 1.4, duration: 0.7, ease: "easeOut" as const }}
           className="stroke-black/8 stroke-[1]"
         />
@@ -146,7 +174,11 @@ export function RightDoodle({ delay = 0 }: { delay?: number }) {
           fill="none"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
+<<<<<<< HEAD
           viewport={{ once: false }}
+=======
+          viewport={{ once: true }}
+>>>>>>> b65688a6b4da83c578a44bdae3be623940d3f4cc
           transition={{ delay: delay + 1.7, duration: 0.5 }}
           className="stroke-black/10 stroke-[1]"
         />
@@ -178,7 +210,11 @@ export function WaveformBg() {
             strokeOpacity={0.07}
             initial={{ scaleY: 0 }}
             whileInView={{ scaleY: 1 }}
+<<<<<<< HEAD
             viewport={{ once: false }}
+=======
+            viewport={{ once: true }}
+>>>>>>> b65688a6b4da83c578a44bdae3be623940d3f4cc
             transition={{ delay: i * 0.025, duration: 0.8, ease: "easeOut" as const }}
             style={{ transformOrigin: `${line.x}px 100px` }}
           />
@@ -194,7 +230,11 @@ export function WaveformBg() {
             strokeOpacity={0.04}
             initial={{ scaleY: 0 }}
             whileInView={{ scaleY: 1 }}
+<<<<<<< HEAD
             viewport={{ once: false }}
+=======
+            viewport={{ once: true }}
+>>>>>>> b65688a6b4da83c578a44bdae3be623940d3f4cc
             transition={{ delay: i * 0.025 + 0.15, duration: 0.8, ease: "easeOut" as const }}
             style={{ transformOrigin: `${line.x}px 100px` }}
           />

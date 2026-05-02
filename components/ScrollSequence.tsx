@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef, useState, useCallback } from "react";
+<<<<<<< HEAD
 import { useScroll, useSpring, motion, useTransform, MotionValue } from "framer-motion";
 import { LeftDoodle, RightDoodle } from "./DoodleLayer";
 import Magnetic from "./Magnetic";
@@ -26,6 +27,28 @@ export default function ScrollSequence({ containerRef, scrollYProgress }: Scroll
   
   // Smooth out the scroll progress to avoid jitter
 
+=======
+import { useScroll, useSpring, motion, useTransform } from "framer-motion";
+import { cn } from "@/lib/utils";
+
+const FRAME_COUNT = 206;
+
+export default function ScrollSequence() {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  
+  const [images, setImages] = useState<HTMLImageElement[]>([]);
+  const [loadedCount, setLoadedCount] = useState(0);
+  const [isReady, setIsReady] = useState(false);
+  
+  // Track scroll progress of the 400vh container
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start start", "end end"],
+  });
+  
+  // Smooth out the scroll progress to avoid jitter
+>>>>>>> b65688a6b4da83c578a44bdae3be623940d3f4cc
   const smoothProgress = useSpring(scrollYProgress, {
     stiffness: 100,
     damping: 30,
@@ -37,9 +60,12 @@ export default function ScrollSequence({ containerRef, scrollYProgress }: Scroll
 
   // Preload images on mount
   useEffect(() => {
+<<<<<<< HEAD
     // If already globally loaded, don't do anything
     if (globalIsLoaded) return;
 
+=======
+>>>>>>> b65688a6b4da83c578a44bdae3be623940d3f4cc
     let isCancelled = false;
     const loadedImages: HTMLImageElement[] = [];
     
@@ -59,6 +85,10 @@ export default function ScrollSequence({ containerRef, scrollYProgress }: Scroll
           };
           img.onerror = () => {
             console.error(`Failed to load image: ${img.src}`);
+<<<<<<< HEAD
+=======
+            // Push an empty/broken image placeholder or skip if needed. We'll just push what we have to keep indices aligned.
+>>>>>>> b65688a6b4da83c578a44bdae3be623940d3f4cc
             loadedImages.push(img);
             setLoadedCount((prev) => prev + 1);
             resolve(null);
@@ -68,8 +98,11 @@ export default function ScrollSequence({ containerRef, scrollYProgress }: Scroll
       
       if (!isCancelled) {
         setImages(loadedImages);
+<<<<<<< HEAD
         globalImageCache = loadedImages;
         globalIsLoaded = true;
+=======
+>>>>>>> b65688a6b4da83c578a44bdae3be623940d3f4cc
         // Small delay to let React commit the loaded state and prevent a flash
         setTimeout(() => setIsReady(true), 500);
       }
@@ -101,11 +134,16 @@ export default function ScrollSequence({ containerRef, scrollYProgress }: Scroll
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+<<<<<<< HEAD
     // "cover" fit logic: scale image to fill the entire canvas while maintaining aspect ratio
+=======
+    // "contain" fit logic: scale image to fit within canvas bounds while maintaining aspect ratio
+>>>>>>> b65688a6b4da83c578a44bdae3be623940d3f4cc
     const imgAspect = img.width / img.height;
     const canvasAspect = canvas.width / canvas.height;
     
     let renderWidth, renderHeight, x, y;
+<<<<<<< HEAD
 
     
     if (imgAspect > canvasAspect) {
@@ -130,6 +168,22 @@ export default function ScrollSequence({ containerRef, scrollYProgress }: Scroll
 
     ctx.drawImage(img, scaledX, scaledY, scaledWidth, scaledHeight);
 
+=======
+    
+    if (imgAspect > canvasAspect) {
+      renderWidth = canvas.width;
+      renderHeight = canvas.width / imgAspect;
+      x = 0;
+      y = (canvas.height - renderHeight) / 2;
+    } else {
+      renderHeight = canvas.height;
+      renderWidth = canvas.height * imgAspect;
+      y = 0;
+      x = (canvas.width - renderWidth) / 2;
+    }
+
+    ctx.drawImage(img, x, y, renderWidth, renderHeight);
+>>>>>>> b65688a6b4da83c578a44bdae3be623940d3f4cc
   }, [images]);
 
   // Subscribe to smoothProgress changes and draw corresponding frame
@@ -170,7 +224,11 @@ export default function ScrollSequence({ containerRef, scrollYProgress }: Scroll
   }, [isReady, smoothProgress, drawFrame]);
 
   return (
+<<<<<<< HEAD
     <div ref={containerRef} className="relative w-full" style={{ height: "170vh" }}>
+=======
+    <div ref={containerRef} className="relative w-full" style={{ height: "400vh" }}>
+>>>>>>> b65688a6b4da83c578a44bdae3be623940d3f4cc
       {/* Loading Overlay */}
       {!isReady && (
         <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-white">
@@ -198,6 +256,7 @@ export default function ScrollSequence({ containerRef, scrollYProgress }: Scroll
           ref={canvasRef}
           className="absolute inset-0 w-full h-full object-contain"
         />
+<<<<<<< HEAD
 
         {/* Floating Doodles inside sticky canvas container */}
         <motion.div 
@@ -210,6 +269,10 @@ export default function ScrollSequence({ containerRef, scrollYProgress }: Scroll
         
         {/* Scroll Indicator */}
 
+=======
+        
+        {/* Scroll Indicator */}
+>>>>>>> b65688a6b4da83c578a44bdae3be623940d3f4cc
         {isReady && (
           <motion.div 
             style={{ opacity: indicatorOpacity }}
@@ -225,6 +288,7 @@ export default function ScrollSequence({ containerRef, scrollYProgress }: Scroll
             </div>
           </motion.div>
         )}
+<<<<<<< HEAD
 
         {/* Specifications Button - Sliding from the left */}
         <motion.div
@@ -283,6 +347,8 @@ export default function ScrollSequence({ containerRef, scrollYProgress }: Scroll
             </motion.button>
           </Magnetic>
         </motion.div>
+=======
+>>>>>>> b65688a6b4da83c578a44bdae3be623940d3f4cc
       </div>
     </div>
   );

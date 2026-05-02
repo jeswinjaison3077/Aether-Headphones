@@ -9,22 +9,32 @@
     "lint": "eslint"
   },
   "dependencies": {
+<<<<<<< HEAD
     "@react-three/drei": "^10.7.7",
     "@react-three/fiber": "^9.6.1",
+=======
+>>>>>>> b65688a6b4da83c578a44bdae3be623940d3f4cc
     "clsx": "^2.1.1",
     "framer-motion": "^12.38.0",
     "next": "16.2.4",
     "react": "19.2.4",
     "react-dom": "19.2.4",
+<<<<<<< HEAD
     "tailwind-merge": "^3.5.0",
     "three": "^0.184.0"
+=======
+    "tailwind-merge": "^3.5.0"
+>>>>>>> b65688a6b4da83c578a44bdae3be623940d3f4cc
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+<<<<<<< HEAD
     "@types/three": "^0.184.0",
+=======
+>>>>>>> b65688a6b4da83c578a44bdae3be623940d3f4cc
     "eslint": "^9",
     "eslint-config-next": "16.2.4",
     "tailwindcss": "^4",
