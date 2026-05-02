@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
-import { motion } from "framer-motion";
+import { motion, Variants } from "framer-motion";
 import { useRouter } from "next/navigation";
 import InteractiveParticles from "@/components/InteractiveParticles";
 import Magnetic from "@/components/Magnetic";
@@ -32,7 +32,7 @@ export default function LoginPage() {
     }
   };
 
-  const itemVariants = {
+  const itemVariants: Variants = {
     hidden: { opacity: 0, y: 20, filter: "blur(10px)" },
     visible: {
       opacity: 1, y: 0, filter: "blur(0px)",

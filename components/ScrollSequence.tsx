@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useEffect, useRef, useState, useCallback } from "react";
-<<<<<<< HEAD
 import { useScroll, useSpring, motion, useTransform, MotionValue } from "framer-motion";
 import { LeftDoodle, RightDoodle } from "./DoodleLayer";
 import Magnetic from "./Magnetic";
@@ -26,29 +25,6 @@ export default function ScrollSequence({ containerRef, scrollYProgress }: Scroll
   const [isReady, setIsReady] = useState(globalIsLoaded);
   
   // Smooth out the scroll progress to avoid jitter
-
-=======
-import { useScroll, useSpring, motion, useTransform } from "framer-motion";
-import { cn } from "@/lib/utils";
-
-const FRAME_COUNT = 206;
-
-export default function ScrollSequence() {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  
-  const [images, setImages] = useState<HTMLImageElement[]>([]);
-  const [loadedCount, setLoadedCount] = useState(0);
-  const [isReady, setIsReady] = useState(false);
-  
-  // Track scroll progress of the 400vh container
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start start", "end end"],
-  });
-  
-  // Smooth out the scroll progress to avoid jitter
->>>>>>> b65688a6b4da83c578a44bdae3be623940d3f4cc
   const smoothProgress = useSpring(scrollYProgress, {
     stiffness: 100,
     damping: 30,
@@ -60,12 +36,9 @@ export default function ScrollSequence() {
 
   // Preload images on mount
   useEffect(() => {
-<<<<<<< HEAD
     // If already globally loaded, don't do anything
     if (globalIsLoaded) return;
 
-=======
->>>>>>> b65688a6b4da83c578a44bdae3be623940d3f4cc
     let isCancelled = false;
     const loadedImages: HTMLImageElement[] = [];
     
@@ -85,10 +58,6 @@ export default function ScrollSequence() {
           };
           img.onerror = () => {
             console.error(`Failed to load image: ${img.src}`);
-<<<<<<< HEAD
-=======
-            // Push an empty/broken image placeholder or skip if needed. We'll just push what we have to keep indices aligned.
->>>>>>> b65688a6b4da83c578a44bdae3be623940d3f4cc
             loadedImages.push(img);
             setLoadedCount((prev) => prev + 1);
             resolve(null);
@@ -98,11 +67,8 @@ export default function ScrollSequence() {
       
       if (!isCancelled) {
         setImages(loadedImages);
-<<<<<<< HEAD
         globalImageCache = loadedImages;
         globalIsLoaded = true;
-=======
->>>>>>> b65688a6b4da83c578a44bdae3be623940d3f4cc
         // Small delay to let React commit the loaded state and prevent a flash
         setTimeout(() => setIsReady(true), 500);
       }
@@ -134,17 +100,11 @@ export default function ScrollSequence() {
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-<<<<<<< HEAD
     // "cover" fit logic: scale image to fill the entire canvas while maintaining aspect ratio
-=======
-    // "contain" fit logic: scale image to fit within canvas bounds while maintaining aspect ratio
->>>>>>> b65688a6b4da83c578a44bdae3be623940d3f4cc
     const imgAspect = img.width / img.height;
     const canvasAspect = canvas.width / canvas.height;
     
-    let renderWidth, renderHeight, x, y;
-<<<<<<< HEAD
-
+    let renderWidth, renderHeight;
     
     if (imgAspect > canvasAspect) {
       // Image is wider than canvas: match height and crop sides
@@ -156,9 +116,6 @@ export default function ScrollSequence() {
       renderHeight = canvas.width / imgAspect;
     }
 
-    x = (canvas.width - renderWidth) / 2;
-    y = (canvas.height - renderHeight) / 2;
-
     // Scale up by 8% to push the Gemini watermark (bottom right) off the canvas
     const scaleFactor = 1.08;
     const scaledWidth = renderWidth * scaleFactor;
@@ -167,23 +124,6 @@ export default function ScrollSequence() {
     const scaledY = canvas.height / 2 - scaledHeight / 2;
 
     ctx.drawImage(img, scaledX, scaledY, scaledWidth, scaledHeight);
-
-=======
-    
-    if (imgAspect > canvasAspect) {
-      renderWidth = canvas.width;
-      renderHeight = canvas.width / imgAspect;
-      x = 0;
-      y = (canvas.height - renderHeight) / 2;
-    } else {
-      renderHeight = canvas.height;
-      renderWidth = canvas.height * imgAspect;
-      y = 0;
-      x = (canvas.width - renderWidth) / 2;
-    }
-
-    ctx.drawImage(img, x, y, renderWidth, renderHeight);
->>>>>>> b65688a6b4da83c578a44bdae3be623940d3f4cc
   }, [images]);
 
   // Subscribe to smoothProgress changes and draw corresponding frame
@@ -224,11 +164,7 @@ export default function ScrollSequence() {
   }, [isReady, smoothProgress, drawFrame]);
 
   return (
-<<<<<<< HEAD
     <div ref={containerRef} className="relative w-full" style={{ height: "170vh" }}>
-=======
-    <div ref={containerRef} className="relative w-full" style={{ height: "400vh" }}>
->>>>>>> b65688a6b4da83c578a44bdae3be623940d3f4cc
       {/* Loading Overlay */}
       {!isReady && (
         <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-white">
@@ -256,7 +192,6 @@ export default function ScrollSequence() {
           ref={canvasRef}
           className="absolute inset-0 w-full h-full object-contain"
         />
-<<<<<<< HEAD
 
         {/* Floating Doodles inside sticky canvas container */}
         <motion.div 
@@ -268,11 +203,6 @@ export default function ScrollSequence() {
         </motion.div>
         
         {/* Scroll Indicator */}
-
-=======
-        
-        {/* Scroll Indicator */}
->>>>>>> b65688a6b4da83c578a44bdae3be623940d3f4cc
         {isReady && (
           <motion.div 
             style={{ opacity: indicatorOpacity }}
@@ -288,7 +218,6 @@ export default function ScrollSequence() {
             </div>
           </motion.div>
         )}
-<<<<<<< HEAD
 
         {/* Specifications Button - Sliding from the left */}
         <motion.div
@@ -298,7 +227,7 @@ export default function ScrollSequence() {
           }}
           className="absolute bottom-12 md:bottom-24 left-8 md:left-20 z-50 hidden md:flex items-center justify-start"
         >
-          <Magnetic>
+          <Magnetic strength={0.2}>
             <motion.button 
               animate={{ y: [0, -10, 0] }}
               transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 1 }}
@@ -327,7 +256,7 @@ export default function ScrollSequence() {
           }}
           className="absolute bottom-12 md:bottom-24 right-8 md:right-20 z-50 hidden md:flex items-center justify-end"
         >
-          <Magnetic>
+          <Magnetic strength={0.2}>
             <motion.button 
               animate={{ y: [0, -10, 0] }}
               transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
@@ -347,8 +276,6 @@ export default function ScrollSequence() {
             </motion.button>
           </Magnetic>
         </motion.div>
-=======
->>>>>>> b65688a6b4da83c578a44bdae3be623940d3f4cc
       </div>
     </div>
   );

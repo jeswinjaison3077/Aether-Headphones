@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { motion, useScroll, useMotionValueEvent, useSpring, MotionValue, useTransform, useMotionValue } from "framer-motion";
+import { motion, useScroll, useMotionValueEvent, useSpring, MotionValue, useTransform, useMotionValue, Variants } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import Magnetic from "@/components/Magnetic";
@@ -66,7 +66,7 @@ export default function Navbar({ sequenceProgress }: NavbarProps) {
 
   const showNavbar = isScrolled || isMenuOpen;
 
-  const menuVariants = {
+  const menuVariants: Variants = {
     closed: {
       opacity: 0,
       y: "-100%",
@@ -88,7 +88,7 @@ export default function Navbar({ sequenceProgress }: NavbarProps) {
     }
   };
 
-  const itemVariants = {
+  const itemVariants: Variants = {
     closed: { opacity: 0, y: 20 },
     open: { opacity: 1, y: 0 }
   };

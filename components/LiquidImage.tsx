@@ -73,7 +73,7 @@ function Scene({ src, isHovered }: { src: string, isHovered: boolean }) {
       uHover: { value: 0 },
       uTime: { value: 0 },
       uResolution: { value: new THREE.Vector2(size.width, size.height) },
-      uImageSize: { value: new THREE.Vector2(texture.image?.width || 1, texture.image?.height || 1) }
+      uImageSize: { value: new THREE.Vector2((texture.image as any)?.width || 1, (texture.image as any)?.height || 1) }
     }),
     [texture, size]
   );

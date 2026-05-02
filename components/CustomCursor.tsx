@@ -85,7 +85,6 @@ export default function CustomCursor() {
       {/* Outer ring */}
       <motion.div
         className="fixed top-0 left-0 pointer-events-none z-[9999] hidden md:flex items-center justify-center"
-        style={{ x: ringX, y: ringY, translateX: "-50%", translateY: "-50%" }}
         animate={{
           width: ringSize,
           height: ringSize,
@@ -101,7 +100,7 @@ export default function CustomCursor() {
           translateY: "-50%",
           borderRadius: "50%",
           border: "1.5px solid rgba(0,0,0,0.25)",
-          mixBlendMode: mode === "drag" ? "normal" : "normal",
+          mixBlendMode: "normal",
         }}
       >
         <AnimatePresence>
