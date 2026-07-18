@@ -744,7 +744,6 @@ export default function ProductSections() {
   const { scrollYProgress } = useScroll();
   const specRef = useRef<HTMLDivElement>(null);
   const featuresRef = useRef<HTMLDivElement>(null);
-  const experienceRef = useRef<HTMLDivElement>(null);
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
@@ -758,14 +757,12 @@ export default function ProductSections() {
     target: specRef,
     offset: ["start end", "end start"]
   });
+
   const { scrollYProgress: featuresScrollYProgress } = useScroll({
     target: featuresRef,
     offset: ["start end", "end start"]
   });
-  const { scrollYProgress: experienceScrollYProgress } = useScroll({
-    target: experienceRef,
-    offset: ["start end", "end 40%"]
-  });
+
   return (
     <div className="bg-transparent w-full overflow-clip relative">
       {/* Decorative Doodles for Product Sections */}
@@ -1066,137 +1063,149 @@ export default function ProductSections() {
 
 
       {/* ══════════════════════════════════════════════════════════
-          §4  EXPERIENCE FLOW — Horizontal Scroll Carousel
+          §4  EXPERIENCE FLOW — Infinite Marquee
       ══════════════════════════════════════════════════════════ */}
-      <section id="experience" ref={experienceRef} className="relative h-[300vh] bg-white">
-        <div className="sticky top-0 h-screen w-full flex items-center overflow-hidden">
-          {/* Ambient Background Elements */}
-          <div className="absolute top-0 right-0 w-[50vw] h-[50vw] bg-black/[0.01] rounded-full blur-[120px] pointer-events-none" />
-          <div className="absolute bottom-0 left-0 w-[40vw] h-[40vw] bg-black/[0.01] rounded-full blur-[100px] pointer-events-none" />
+      <section id="experience" className="relative py-24 md:py-32 bg-white overflow-hidden flex flex-col justify-center">
+        {/* Ambient Background Elements */}
+        <div className="absolute top-0 right-0 w-[50vw] h-[50vw] bg-black/[0.01] rounded-full blur-[120px] pointer-events-none" />
+        <div className="absolute bottom-0 left-0 w-[40vw] h-[40vw] bg-black/[0.01] rounded-full blur-[100px] pointer-events-none" />
 
-          {/* Interactive Particles Layer */}
-          <InteractiveParticles />
+        {/* Interactive Particles Layer */}
+        <InteractiveParticles />
 
-          <div className="relative w-full max-w-7xl mx-auto px-6 md:px-20 z-10">
-            <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 md:mb-16">
-              <Reveal><Label>Experience</Label></Reveal>
-              <Reveal staggerIndex={1}>
-                <motion.p
-                  whileHover={{ color: "#000", filter: "brightness(1.5)", letterSpacing: "0.1em" }}
-                  transition={{ type: "spring", stiffness: 300 }}
-                  className="text-sm text-black/30 font-medium tracking-tight mb-8 md:mb-16 cursor-default"
-                >
-                  SCROLL TO EXPLORE <span className="ml-2 inline-block animate-bounce">→</span>
-                </motion.p>
-              </Reveal>
-            </div>
-
-            <motion.div
-              style={{ x: useTransform(experienceScrollYProgress, [0, 1], isMobile ? ["-260%", "15%"] : ["-90%", "4%"]) }}
-              className="flex gap-8 md:gap-16"
-            >
-              {[
-                {
-                  step: "01",
-                  title: "Connect instantly",
-                  body: "Pair in under 2 seconds via Bluetooth 5.3 multipoint. Two devices, zero friction.",
-                  icon: (
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M8.5 12a8.5 8.5 0 0 0 7 0M5 12a12 12 0 0 0 14 0M12 8a4 4 0 0 0 0 8" />
-                    </svg>
-                  ),
-                },
-                {
-                  step: "02",
-                  title: "Play effortlessly",
-                  body: "Intuitive tactile controls respond to the lightest touch. Navigate without breaking focus.",
-                  icon: (
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                      <circle cx="12" cy="12" r="9" />
-                      <circle cx="12" cy="12" r="3" />
-                    </svg>
-                  ),
-                },
-                {
-                  step: "03",
-                  title: "Stay immersed",
-                  body: "Adaptive ANC and Transparency mode detect your environment in real time — automatically.",
-                  icon: (
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M3 12c0-5 3.5-9 9-9s9 4 9 9M6.5 12c0-3 2.5-5.5 5.5-5.5S17.5 9 17.5 12" />
-                      <circle cx="12" cy="12" r="2" />
-                    </svg>
-                  ),
-                },
-
-              ].map((item, i) => (
-                <div key={item.step} className="w-[85vw] md:w-[42vw] shrink-0">
-                  <Magnetic strength={0.08}>
-                    <motion.div
-                      animate={{ y: [0, -20, 0] }}
-                      transition={{
-                        duration: 6,
-                        repeat: Infinity,
-                        ease: "easeInOut",
-                        delay: i * 0.4
-                      }}
-                    >
-                      <TiltCard>
-                        <motion.div
-                          initial={{ opacity: 0, x: 50, filter: "blur(10px)" }}
-                          whileInView={{ opacity: 1, x: 0, filter: "blur(0px)" }}
-                          viewport={{ once: true }}
-                          transition={{ duration: 0.8, delay: i * 0.1, ease: EASE }}
-                          whileHover={{ y: -10, boxShadow: "0 30px 60px -15px rgba(0,0,0,0.08)" }}
-                          className="group cursor-default p-8 md:p-14 bg-white border border-black/[0.04] rounded-[2.5rem] h-full flex flex-col relative overflow-hidden backdrop-blur-sm"
-                        >
-                          {/* Giant background number */}
-                          <span className="absolute -bottom-4 -right-4 text-[150px] md:text-[220px] font-black text-black/[0.02] leading-none select-none pointer-events-none">
-                            {item.step}
-                          </span>
-
-                          <div className="flex items-center gap-4 mb-10">
-                            <div className="relative">
-                              <motion.div
-                                animate={{ scale: [1, 1.8, 1], opacity: [0.1, 0, 0.1] }}
-                                transition={{ duration: 3, repeat: Infinity, delay: i * 0.5 }}
-                                className="absolute inset-0 rounded-2xl bg-black/5"
-                              />
-                              <div className="w-14 h-14 rounded-2xl bg-black/[0.03] border border-black/[0.05] flex items-center justify-center group-hover:bg-[#111] group-hover:text-white transition-all duration-500 relative z-10">
-                                {item.icon}
-                              </div>
-                            </div>
-                            <div className="h-px w-8 bg-black/10" />
-                            <span className="text-[10px] tracking-[0.4em] uppercase text-black/30 font-bold">{item.step}</span>
-                          </div>
-
-                          <h3 className="text-3xl md:text-5xl font-bold tracking-tighter text-[#111] mb-6 group-hover:translate-x-1 transition-transform duration-300">
-                            {item.title}
-                          </h3>
-                          <motion.p
-                            whileHover={{ color: "#000", filter: "brightness(1.2)", x: 3 }}
-                            transition={{ type: "spring", stiffness: 300 }}
-                            className="text-lg md:text-xl text-[#666] font-light leading-relaxed max-w-[380px] cursor-default"
-                          >
-                            {item.body}
-                          </motion.p>
-
-                          <motion.div
-                            initial={{ scaleX: 0 }}
-                            whileHover={{ scaleX: 1 }}
-                            transition={{ duration: 0.5, ease: EASE }}
-                            className="absolute bottom-0 left-0 right-0 h-1 bg-black/5 origin-left"
-                          />
-                        </motion.div>
-                      </TiltCard>
-                    </motion.div>
-                  </Magnetic>
-                </div>
-              ))}
-              {/* Spacer for ending the horizontal scroll cleanly */}
-              <div className="w-[5vw] md:w-[10vw] shrink-0" />
-            </motion.div>
+        <div className="relative w-full max-w-7xl mx-auto px-6 md:px-20 z-10">
+          <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 md:mb-16">
+            <Reveal><Label>Experience</Label></Reveal>
           </div>
+        </div>
+
+        <div className="relative w-full overflow-hidden flex z-10 py-10">
+          <motion.div
+            animate={{ x: [0, "-50%"] }}
+            transition={{ repeat: Infinity, ease: "linear", duration: 30 }}
+            className="flex gap-8 md:gap-16 w-max pl-8 md:pl-16"
+          >
+            {[
+              {
+                step: "01",
+                title: "Connect instantly",
+                body: "Pair in under 2 seconds via Bluetooth 5.3 multipoint. Two devices, zero friction.",
+                icon: (
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M8.5 12a8.5 8.5 0 0 0 7 0M5 12a12 12 0 0 0 14 0M12 8a4 4 0 0 0 0 8" />
+                  </svg>
+                ),
+              },
+              {
+                step: "02",
+                title: "Play effortlessly",
+                body: "Intuitive tactile controls respond to the lightest touch. Navigate without breaking focus.",
+                icon: (
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                    <circle cx="12" cy="12" r="9" />
+                    <circle cx="12" cy="12" r="3" />
+                  </svg>
+                ),
+              },
+              {
+                step: "03",
+                title: "Stay immersed",
+                body: "Adaptive ANC and Transparency mode detect your environment in real time — automatically.",
+                icon: (
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M3 12c0-5 3.5-9 9-9s9 4 9 9M6.5 12c0-3 2.5-5.5 5.5-5.5S17.5 9 17.5 12" />
+                    <circle cx="12" cy="12" r="2" />
+                  </svg>
+                ),
+              },
+              {
+                step: "01",
+                title: "Connect instantly",
+                body: "Pair in under 2 seconds via Bluetooth 5.3 multipoint. Two devices, zero friction.",
+                icon: (
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M8.5 12a8.5 8.5 0 0 0 7 0M5 12a12 12 0 0 0 14 0M12 8a4 4 0 0 0 0 8" />
+                  </svg>
+                ),
+              },
+              {
+                step: "02",
+                title: "Play effortlessly",
+                body: "Intuitive tactile controls respond to the lightest touch. Navigate without breaking focus.",
+                icon: (
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                    <circle cx="12" cy="12" r="9" />
+                    <circle cx="12" cy="12" r="3" />
+                  </svg>
+                ),
+              },
+              {
+                step: "03",
+                title: "Stay immersed",
+                body: "Adaptive ANC and Transparency mode detect your environment in real time — automatically.",
+                icon: (
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M3 12c0-5 3.5-9 9-9s9 4 9 9M6.5 12c0-3 2.5-5.5 5.5-5.5S17.5 9 17.5 12" />
+                    <circle cx="12" cy="12" r="2" />
+                  </svg>
+                ),
+              }
+            ].map((item, i) => (
+              <div key={`${item.step}-${i}`} className="w-[85vw] md:w-[42vw] shrink-0">
+                <motion.div
+                  animate={{ y: [0, -20, 0] }}
+                  transition={{
+                    duration: 6,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                    delay: i * 0.4
+                  }}
+                >
+                  <TiltCard>
+                    <div className="group cursor-default p-8 md:p-14 bg-white border border-black/[0.04] rounded-[2.5rem] h-full flex flex-col relative overflow-hidden backdrop-blur-sm">
+                      {/* Giant background number */}
+                      <span className="absolute -bottom-4 -right-4 text-[150px] md:text-[220px] font-black text-black/[0.02] leading-none select-none pointer-events-none">
+                        {item.step}
+                      </span>
+
+                      <div className="flex items-center gap-4 mb-10">
+                        <div className="relative">
+                          <motion.div
+                            animate={{ scale: [1, 1.8, 1], opacity: [0.1, 0, 0.1] }}
+                            transition={{ duration: 3, repeat: Infinity, delay: i * 0.5 }}
+                            className="absolute inset-0 rounded-2xl bg-black/5"
+                          />
+                          <div className="w-14 h-14 rounded-2xl bg-black/[0.03] border border-black/[0.05] flex items-center justify-center group-hover:bg-[#111] group-hover:text-white transition-all duration-500 relative z-10">
+                            {item.icon}
+                          </div>
+                        </div>
+                        <div className="h-px w-8 bg-black/10" />
+                        <span className="text-[10px] tracking-[0.4em] uppercase text-black/30 font-bold">{item.step}</span>
+                      </div>
+
+                      <h3 className="text-3xl md:text-5xl font-bold tracking-tighter text-[#111] mb-6 group-hover:translate-x-1 transition-transform duration-300">
+                        {item.title}
+                      </h3>
+                      <motion.p
+                        whileHover={{ color: "#000", filter: "brightness(1.2)", x: 3 }}
+                        transition={{ type: "spring", stiffness: 300 }}
+                        className="text-lg md:text-xl text-[#666] font-light leading-relaxed max-w-[380px] cursor-default"
+                      >
+                        {item.body}
+                      </motion.p>
+
+                      <motion.div
+                        initial={{ scaleX: 0 }}
+                        whileHover={{ scaleX: 1 }}
+                        transition={{ duration: 0.5, ease: EASE }}
+                        className="absolute bottom-0 left-0 right-0 h-1 bg-black/5 origin-left"
+                      />
+                    </div>
+                  </TiltCard>
+                </motion.div>
+              </div>
+            ))}
+          </motion.div>
         </div>
       </section>
 

@@ -1,12 +1,15 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { motion, useScroll, useMotionValueEvent, useSpring, MotionValue, useTransform, useMotionValue, Variants } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import Magnetic from "@/components/Magnetic";
 import { usePageTransition } from "@/components/PageTransition";
 import { useSound } from "@/components/useSound";
+import { useAuth } from "@/lib/AuthContext";
+import { signOut } from "firebase/auth";
+import { auth } from "@/lib/firebase";
 
 interface NavbarProps {
   sequenceProgress?: MotionValue<number>;
@@ -18,6 +21,30 @@ export default function Navbar({ sequenceProgress }: NavbarProps) {
   const { playClick } = useSound();
   const { scrollYProgress } = useScroll();
   const [isScrolled, setIsScrolled] = useState(false);
+  const { user } = useAuth();
+  const [isProfileOpen, setIsProfileOpen] = useState(false);
+
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+    } catch (error) {
+      console.error("Failed to log out", error);
+    }
+  };
+
+  const profileRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (profileRef.current && !profileRef.current.contains(event.target as Node)) {
+        setIsProfileOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   // Use the scroll trigger to show navbar almost immediately
   // Added back the reverse trigger so it disappears when at the top
@@ -148,17 +175,64 @@ export default function Navbar({ sequenceProgress }: NavbarProps) {
               Specs
             </motion.button>
           </Magnetic>
-          <Magnetic>
-            <motion.button
-              initial={{ opacity: 0, y: 10, filter: "blur(4px)" }}
-              animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-              transition={{ delay: 0.4, duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
-              onClick={() => { navigateTo('/login'); }}
-              className="text-sm font-bold uppercase tracking-[0.3em] text-black hover:opacity-70 transition-opacity p-2 pointer-events-auto"
-            >
-              Login
-            </motion.button>
-          </Magnetic>
+          {user ? (
+            <div className="relative pointer-events-auto" ref={profileRef}>
+              <motion.button
+                initial={{ opacity: 0, y: 10, filter: "blur(4px)" }}
+                animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                transition={{ delay: 0.4, duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+                onClick={() => setIsProfileOpen(!isProfileOpen)}
+                className="w-8 h-8 md:w-10 md:h-10 rounded-full overflow-hidden border border-black/10 shadow-sm hover:scale-105 transition-transform"
+              >
+                {user.photoURL ? (
+                  <img src={user.photoURL} alt="Profile" className="w-full h-full object-cover" />
+                ) : (
+                  <div className="w-full h-full bg-black text-white flex items-center justify-center text-xs font-bold uppercase">
+                    {user.email?.charAt(0) || 'U'}
+                  </div>
+                )}
+              </motion.button>
+              {isProfileOpen && (
+                <motion.div 
+                  initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  className="absolute right-0 mt-3 w-40 bg-white/80 backdrop-blur-xl rounded-2xl shadow-2xl border border-black/5 overflow-hidden z-50 origin-top-right"
+                >
+                  <div className="px-4 py-3 border-b border-black/5">
+                    <p className="text-[10px] font-medium text-black/40 truncate">{user.email}</p>
+                  </div>
+                  <button 
+                    onClick={() => { 
+                      setIsProfileOpen(false); 
+                      handleLogout(); 
+                      navigateTo('/login'); 
+                    }}
+                    className="w-full text-left px-4 py-3 text-sm font-medium text-black hover:bg-black/5 transition-colors border-b border-black/5"
+                  >
+                    Switch Account
+                  </button>
+                  <button 
+                    onClick={() => { setIsProfileOpen(false); handleLogout(); }}
+                    className="w-full text-left px-4 py-3 text-sm font-medium text-red-500 hover:bg-red-50 transition-colors"
+                  >
+                    Logout
+                  </button>
+                </motion.div>
+              )}
+            </div>
+          ) : (
+            <Magnetic>
+              <motion.button
+                initial={{ opacity: 0, y: 10, filter: "blur(4px)" }}
+                animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                transition={{ delay: 0.4, duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+                onClick={() => { navigateTo('/login'); }}
+                className="text-sm font-bold uppercase tracking-[0.3em] text-black hover:opacity-70 transition-opacity p-2 pointer-events-auto"
+              >
+                Login
+              </motion.button>
+            </Magnetic>
+          )}
           <Magnetic>
             <motion.button
               initial={{ opacity: 0, y: 10, filter: "blur(4px)" }}
@@ -208,12 +282,22 @@ export default function Navbar({ sequenceProgress }: NavbarProps) {
             { label: "Aesthetics", id: "carousel" },
             { label: "Features", id: "features" },
             { label: "Specs", id: "specifications" },
+            user 
+              ? { label: "Logout", id: "logout", isRoute: false }
+              : { label: "Login", id: "/login", isRoute: true },
             { label: "Pre-order", id: "/login", isRoute: true }
           ].map((item) => (
             <Magnetic key={item.label}>
               <motion.button
                 variants={itemVariants}
-                onClick={() => handleMobileLink(item.id, item.isRoute)}
+                onClick={() => {
+                  if (item.id === "logout") {
+                    setIsMenuOpen(false);
+                    handleLogout();
+                  } else {
+                    handleMobileLink(item.id, item.isRoute);
+                  }
+                }}
                 className={cn(
                   "text-4xl font-bold tracking-tighter text-black pointer-events-auto",
                   item.isRoute && "px-8 py-3 bg-black text-white rounded-full text-xl mt-4"

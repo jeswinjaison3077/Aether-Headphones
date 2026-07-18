@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import CustomCursor from "@/components/CustomCursor";
 import { PageTransitionProvider } from "@/components/PageTransition";
 import { SoundPreloader } from "@/components/useSound";
 
@@ -9,6 +8,8 @@ export const metadata: Metadata = {
   description:
     "Witness the seamless assembly of raw performance and design. A premium scroll-linked animation experience.",
 };
+
+import { AuthProvider } from "@/lib/AuthContext";
 
 export default function RootLayout({
   children,
@@ -27,11 +28,12 @@ export default function RootLayout({
       </head>
       <body suppressHydrationWarning>
         <div className="noise-overlay" />
-        <CustomCursor />
         <SoundPreloader />
-        <PageTransitionProvider>
-          {children}
-        </PageTransitionProvider>
+        <AuthProvider>
+          <PageTransitionProvider>
+            {children}
+          </PageTransitionProvider>
+        </AuthProvider>
       </body>
     </html>
   );
